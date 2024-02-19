@@ -46,8 +46,8 @@ where rn = 1
 
 -- dbt build --select <model_name> --vars '{'is_test_run': 'false'}'
 -- default true -> ogranicza do 100
-{% if var('is_test_run', default=true) %}
+-- {% if var('is_test_run', default=true) %}
 
-  limit 100
+--   limit 100
 
-{% endif %}
+-- {% endif %}
