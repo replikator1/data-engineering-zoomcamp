@@ -33,7 +33,7 @@ def upload_to_gcs(bucket, object_name, local_file):
 
 
 def web_to_gcs(year, service):
-    for i in range(2,12):
+    for i in range(0,12):
         taxi_dtypes_dic = {'green': {
                             'VendorID': pd.Int64Dtype(),
                             'store_and_fwd_flag': str,
@@ -75,7 +75,7 @@ def web_to_gcs(year, service):
                        'fhv':{
                             'dispatching_base_num': str,
                             'PULocationID': pd.Int64Dtype(),
-                            'DOLocationID': pd.Int64Dtype(),
+                            'DOlocationID': pd.Int64Dtype(),
                             'SR_Flag': float,
                             'Affiliated_base_number':str
                         }    }
@@ -106,6 +106,8 @@ def web_to_gcs(year, service):
             df['tpep_pickup_datetime'] = df['tpep_pickup_datetime'].dt.strftime("%Y-%m-%d %H:%M:%S")
             df['tpep_dropoff_datetime'] = df['tpep_dropoff_datetime'].dt.strftime("%Y-%m-%d %H:%M:%S")
         if service == 'fhv':
+            df['PUlocationID'] = df.PUlocationID.astype("Int64")
+            df['DOlocationID'] = df.DOlocationID.astype('Int64')
             df['pickup_datetime'] = df['pickup_datetime'].dt.strftime("%Y-%m-%d %H:%M:%S")
             df['dropOff_datetime'] = df['dropOff_datetime'].dt.strftime("%Y-%m-%d %H:%M:%S")       
         file_name = file_name.replace('.csv.gz', '.parquet')
@@ -117,6 +119,6 @@ def web_to_gcs(year, service):
         print(f"GCS: {service}/{file_name}")
 
 
-web_to_gcs('2020', 'yellow')
+web_to_gcs('2019', 'fhv')
 
 
